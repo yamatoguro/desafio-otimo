@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="iago">
+        <createTable tableName="empresa">
+            <column name="cnpj" type="varchar(250)">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="id_tipo" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="nome" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
+            <column name="razao_social" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
+            <column name="telefone" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
+            <column name="email" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
+            <column name="id_endereco" type="int">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addUniqueConstraint catalogName="desafio" clustered="false" columnNames="cnpj" constraintName="cnpjs" schemaName="public" tableName="empresa"/>
+        <createTable tableName="endereco">
+            <column name="id_endereco" type="int">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="cep" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="estado" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="bairro" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
+            <column name="cidade" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
+            <column name="logradouro" type="varchar(500)">
+                <constraints nullable="false" />
+            </column>
+            <column name="complemento" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+        <createTable tableName="tipo">
+            <column name="id_tipo" type="int">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="descricao" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
