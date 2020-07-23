@@ -22,7 +22,6 @@ import {
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { config } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -44,9 +43,9 @@ import { config } from 'rxjs';
     NbRadioModule,
     Ng2SmartTableModule,
     NbButtonModule,
-    NbToastrModule.forRoot(config),
+    NbToastrModule.forRoot(),
     FormsModule,
-    NbDialogModule.forRoot(config)
+    NbDialogModule.forRoot()
   ],
   providers: [ListarEmpresaService],
   bootstrap: [AppComponent],

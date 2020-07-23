@@ -25,9 +25,7 @@ public class EmpresaService {
     @Autowired
     private EnderecoService enderecoService;
 
-    public Page<EmpresaDTO> findAll() {
-        int page = 0;
-        int size = 5;
+    public Page<EmpresaDTO> findAll(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "nome");
         Page<Empresa> empresas = empresaRepository.findAll(pageRequest);
         return new PageImpl<EmpresaDTO>(toDtoList(empresas.getContent()), pageRequest, size);

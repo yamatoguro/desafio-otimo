@@ -12,8 +12,34 @@
       </div>
     </div>
     <br><br>
-
-    <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
-    </ng2-smart-table>
+    <table>
+      <thead>
+        <th>CNPJ</th>
+        <th>Nome</th>
+        <th>Razão Social</th>
+        <th>Tipo</th>
+        <th colspan="2">Ações</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data">
+          <td style="padding-right: 4em">{{ item.cnpj }}</td>
+          <td style="padding-right: 4em">{{ item.nome }}</td>
+          <td style="padding-right: 4em">{{ item.razaoSocial }}</td>
+          <td style="padding-right: 4em">{{ item.tipo}}</td>
+          <td style="padding-right: 4em">
+            <button nbButton status="warning" type="button">Editar</button>
+            &nbsp;
+            <button nbButton status="danger" type="button">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <button (click)="back()" [disabled]="current == 0" nbButton status="primary" type="button">Voltar</button>
+        &nbsp;
+        <button disabled nbButton type="button">{{current + 1}}</button>
+        &nbsp;
+        <button (click)="next()" [disabled]="currentSize < 5" nbButton status="primary" type="button">Avançar</button>
+      </tfoot>
+    </table>
   </nb-card-body>
 </nb-card>

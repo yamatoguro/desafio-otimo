@@ -5,6 +5,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { Empresa } from '../../model/empresa';
 import { FormsModule } from '@angular/forms';
 import { CadastrarEmpresaComponent } from '../cadastrar-empresa/cadastrar-empresa.component';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-listar-empresa',
@@ -13,102 +14,76 @@ import { CadastrarEmpresaComponent } from '../cadastrar-empresa/cadastrar-empres
 })
 export class ListarEmpresaComponent implements OnInit {
   filtro: string = '';
-
+  data = [];
+  current = 0;
+  currentSize = 0;
   //✎✓
-  settings = {
-    mode: external,
-    hideSubHeader: true,
-    actions: {
-      add: false,
-      edit: false,
-      delete: false,
-      position: 'right',
-    },
-    columns: {
-      cnpj: {
-        title: 'CNPJ',
-        type: 'string',
-        editable: false
-      },
-      nome: {
-        title: 'Nome',
-        type: 'string',
-        editable: false
-      },
-      razaoSocial: {
-        title: 'Razão Social',
-        type: 'string',
-        editable: false
-      },
-      tipo: {
-        title: 'Tipo',
-        type: 'string',
-        editable: false
-      }
-    },
-  };
 
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private service: ListarEmpresaService, private dialogService: NbDialogService) {
-    this.getEmpresas()
+    this.getEmpresas(0)
   }
 
   ngOnInit(): void { }
 
   onFilter() {
-    console.log('FILTRO => ' + this.filtro);
-    if(this.filtro.length === 0){
-      this.getEmpresas();
+    if (this.filtro.length === 0) {
+      this.getEmpresas(0);
     } else {
-      this.getEmpresasComFiltro();
+      this.getEmpresasComFiltro(0);
     }
   }
 
-  getEmpresasComFiltro(){
-    var data = [];
-    this.service.getEmpresasFiltradas(this.filtro).subscribe(empresas => {
-      console.log(empresas);
-      empresas.content.map((d: Empresa) => {
-        data.push({
-          cnpj: d.cnpj,
-          tipo: d.tipo,
-          razaoSocial: d.razao_social,
-          nome: d.nome
-        });
-      });
-      console.log(data);
-      this.source.load(data);
-    });
-  }
-
-  getEmpresas(){
-    this.source.reset();
-    var data = [];
-    this.service.getEmpresas().subscribe(empresas => {
-      console.log(empresas);
-      empresas.content.map((d: Empresa) => {
-        data.push({
-          cnpj: d.cnpj,
-          tipo: d.tipo,
-          razaoSocial: d.razao_social,
-          nome: d.nome
-        });
-      });
-      console.log(data);
-      this.source.load(data);
-    });
-  }
-
-  onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
+  next() {
+    if (this.filtro.length === 0) {
+      this.getEmpresas(++this.current);
     } else {
-      event.confirm.reject();
+      this.getEmpresasComFiltro(++this.current);
+    }
+  }
+
+  back() {
+    if (this.filtro.length === 0) {
+      this.getEmpresas(--this.current);
+    } else {
+      this.getEmpresasComFiltro(--this.current);
     }
   }
 
   protected open() {
-    this.dialogService.open(CadastrarEmpresaComponent, { context: {title: 'Cadastrar Empresa'} });
+    this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa' } });
+  }
+
+  getEmpresasComFiltro(page) {
+    this.service.getEmpresasFiltradas(this.filtro, page).subscribe(empresas => {
+      this.data = [];
+      this.currentSize = empresas.content.length;
+      console.log(this.currentSize);
+      empresas.content.map((d: Empresa) => {
+        this.data.push({
+          cnpj: d.cnpj,
+          tipo: d.tipo,
+          razaoSocial: d.razao_social,
+          nome: d.nome
+        });
+      });
+    });
+  }
+
+  getEmpresas(page) {
+    this.service.getEmpresas(page).subscribe(empresas => {
+      this.data = [];
+      this.currentSize = empresas.content.length;
+      console.log(this.currentSize);
+      empresas.content.map((d: Empresa) => {
+        this.data.push({
+          cnpj: d.cnpj,
+          tipo: d.tipo,
+          razaoSocial: d.razao_social,
+          nome: d.nome
+        });
+      });
+    });
   }
 }

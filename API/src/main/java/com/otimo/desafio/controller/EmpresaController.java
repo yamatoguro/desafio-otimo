@@ -35,8 +35,10 @@ public class EmpresaController {
     private EmpresaService empresaService;
 
     @GetMapping(path = "")
-    public Page<EmpresaDTO> getEmpresas() {
-        return empresaService.findAll();
+    public Page<EmpresaDTO> getEmpresas(
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "5") int size){
+        return empresaService.findAll(page, size);
     }
 
     @GetMapping("/filter")

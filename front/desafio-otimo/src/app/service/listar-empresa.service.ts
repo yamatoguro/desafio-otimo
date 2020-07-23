@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable, HostBinding } from '@angular/core';
 import { Empresa } from '../model/empresa';
 import { retry, catchError } from 'rxjs/operators';
@@ -21,12 +21,18 @@ export class ListarEmpresaService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  getEmpresas() {
-    return this.http.get<Empresa[]>(this.url).pipe(retry(2), catchError(this.handleError));
+  getEmpresas(page) {
+    var params: HttpParams = new HttpParams().set('page', page);
+    console.log(params.keys());
+    return this.http.get<Empresa[]>(this.url, {params}).pipe(retry(2), catchError(this.handleError));
   }
 
-  getEmpresasFiltradas(filtro){
-    return this.http.get<Empresa[]>(this.url + "/filter?searchTerm=" + filtro).pipe(retry(2), catchError(this.handleError));
+  getEmpresasFiltradas(filtro: string, page){
+    var params: HttpParams = new HttpParams()
+    .set('page', page)
+    .set('searchTerm', filtro);
+    console.log(params.keys());
+    return this.http.get<Empresa[]>(this.url, {params}).pipe(retry(2), catchError(this.handleError));
   }
 
   handleError(error: HttpErrorResponse) {
