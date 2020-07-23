@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, Input } from '@angular/core';
+import { NbDialogRef } from '@nebular/theme';
+import { Empresa } from '../../model/empresa';
 
 @Component({
-  selector: 'app-cadastrar-empresa',
+  selector: 'ngx-showcase-dialog',
   templateUrl: './cadastrar-empresa.component.html',
-  styleUrls: ['./cadastrar-empresa.component.css']
+  styleUrls: ['./cadastrar-empresa.component.css'],
 })
-export class CadastrarEmpresaComponent implements OnInit {
+export class CadastrarEmpresaComponent {
 
-  constructor() { }
+  @Input() title: string;
+  @Input() empresa: Empresa;
 
-  ngOnInit(): void {
+  constructor(protected ref: NbDialogRef<CadastrarEmpresaComponent>) {}
+
+  dismiss() {
+    this.ref.close();
   }
-
 }

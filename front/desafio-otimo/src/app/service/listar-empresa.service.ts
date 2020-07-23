@@ -25,6 +25,10 @@ export class ListarEmpresaService {
     return this.http.get<Empresa[]>(this.url).pipe(retry(2), catchError(this.handleError));
   }
 
+  getEmpresasFiltradas(filtro){
+    return this.http.get<Empresa[]>(this.url + "/filter?searchTerm=" + filtro).pipe(retry(2), catchError(this.handleError));
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

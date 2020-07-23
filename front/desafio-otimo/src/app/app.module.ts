@@ -19,9 +19,9 @@ import {
   NbDialogModule,
   NbToastrModule,
 } from '@nebular/theme';
-import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { config } from 'rxjs';
 
 @NgModule({
@@ -37,7 +37,6 @@ import { config } from 'rxjs';
     BrowserAnimationsModule,
     NbThemeModule.forRoot({ name: 'dark' }),
     NbLayoutModule,
-    NbEvaIconsModule,
     NbCardModule,
     NbInputModule,
     NbSelectModule,
@@ -45,7 +44,9 @@ import { config } from 'rxjs';
     NbRadioModule,
     Ng2SmartTableModule,
     NbButtonModule,
-    NbToastrModule.forRoot(config)
+    NbToastrModule.forRoot(config),
+    FormsModule,
+    NbDialogModule.forRoot(config)
   ],
   providers: [ListarEmpresaService],
   bootstrap: [AppComponent],

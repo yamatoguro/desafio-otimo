@@ -4,12 +4,15 @@
   </nb-card-header>
 
   <nb-card-body>
-    <label>CNPJ: </label><input nbInput />
-    <span> &nbsp; </span>
-    <label>Nome da Empresa: </label><input nbInput />
-    <span> &nbsp; </span>
-    <button nbButton (click)="onEdit()">Top Right</button>
+    <div class="row">
+      <div class="col-sm-3">
+        <label>CNPJ ou Nome da Empresa: </label><input [(ngModel)]="filtro" type="text" nbInput /> &nbsp;
+        <button nbButton (click)="onFilter()">Filtrar</button> &nbsp;
+        <button nbButton (click)="open()">Nova Empresa</button>
+      </div>
+    </div>
     <br><br>
+
     <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
     </ng2-smart-table>
   </nb-card-body>

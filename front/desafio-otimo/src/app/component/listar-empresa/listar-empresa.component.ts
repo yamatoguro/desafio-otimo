@@ -1,9 +1,10 @@
-import { EmpresaTable } from './../../model/dto/empresaTable';
+import { NbDialogService } from '@nebular/theme';
 import { ListarEmpresaService } from './../../service/listar-empresa.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../../assets/smart-table';
 import { Empresa } from '../../model/empresa';
+import { FormsModule } from '@angular/forms';
+import { CadastrarEmpresaComponent } from '../cadastrar-empresa/cadastrar-empresa.component';
 
 @Component({
   selector: 'app-listar-empresa',
@@ -11,6 +12,7 @@ import { Empresa } from '../../model/empresa';
   styleUrls: ['./listar-empresa.component.css'],
 })
 export class ListarEmpresaComponent implements OnInit {
+  filtro: string = '';
 
   //✎✓
   settings = {
@@ -48,7 +50,40 @@ export class ListarEmpresaComponent implements OnInit {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: ListarEmpresaService) {
+  constructor(private service: ListarEmpresaService, private dialogService: NbDialogService) {
+    this.getEmpresas()
+  }
+
+  ngOnInit(): void { }
+
+  onFilter() {
+    console.log('FILTRO => ' + this.filtro);
+    if(this.filtro.length === 0){
+      this.getEmpresas();
+    } else {
+      this.getEmpresasComFiltro();
+    }
+  }
+
+  getEmpresasComFiltro(){
+    var data = [];
+    this.service.getEmpresasFiltradas(this.filtro).subscribe(empresas => {
+      console.log(empresas);
+      empresas.content.map((d: Empresa) => {
+        data.push({
+          cnpj: d.cnpj,
+          tipo: d.tipo,
+          razaoSocial: d.razao_social,
+          nome: d.nome
+        });
+      });
+      console.log(data);
+      this.source.load(data);
+    });
+  }
+
+  getEmpresas(){
+    this.source.reset();
     var data = [];
     this.service.getEmpresas().subscribe(empresas => {
       console.log(empresas);
@@ -65,17 +100,15 @@ export class ListarEmpresaComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void { }
-
-  onEdit() {
-    this.service.showToast('top-right', 'TESTESTESTESTESTESTESTESTE', 'Success');
-  }
-
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
       event.confirm.resolve();
     } else {
       event.confirm.reject();
     }
+  }
+
+  protected open() {
+    this.dialogService.open(CadastrarEmpresaComponent, { context: {title: 'Teste'} });
   }
 }
