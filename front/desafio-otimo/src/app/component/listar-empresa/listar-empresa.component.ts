@@ -109,6 +109,6 @@ export class ListarEmpresaComponent implements OnInit {
   }
 
   protected open() {
-    this.dialogService.open(CadastrarEmpresaComponent, { context: {title: 'Teste'} });
+    this.dialogService.open(CadastrarEmpresaComponent, { context: {title: 'Cadastrar Empresa'} });
   }
 }
