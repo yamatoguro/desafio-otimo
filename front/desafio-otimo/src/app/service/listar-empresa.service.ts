@@ -1,14 +1,20 @@
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, HostBinding } from '@angular/core';
 import { Empresa } from '../model/empresa';
 import { retry, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { NbToastrService } from '@nebular/theme';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ListarEmpresaService {
-  constructor(private http: HttpClient) { }
+  private index: number = 0;
+
+  @HostBinding('class')
+  classes = 'items-rows';
+
+  constructor(private http: HttpClient,private toastrService: NbToastrService) { }
 
   url = 'http://localhost:12333/empresa';
   httpOptions = {
@@ -28,6 +34,15 @@ export class ListarEmpresaService {
         `Código do erro: ${error.status}, ` + `menssagem: ${error.message}`;
     }
     console.log(errorMessage);
+    this.showToast('top-right', errorMessage, 'Danger');
     return throwError(errorMessage);
+  }
+
+  showToast(position, status, type) {
+    const duration = 1000;
+    this.toastrService.show(
+      status || 'Primary',
+      `Erro`,
+      { duration, position, status });
   }
 }

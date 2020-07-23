@@ -48,10 +48,11 @@ export class ListarEmpresaComponent implements OnInit {
 
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(service: ListarEmpresaService) {
+  constructor(private service: ListarEmpresaService) {
     var data = [];
-    service.getEmpresas().subscribe((empresas: Empresa[]) => {
-      empresas.map((d: Empresa) => {
+    this.service.getEmpresas().subscribe(empresas => {
+      console.log(empresas);
+      empresas.content.map((d: Empresa) => {
         data.push({
           cnpj: d.cnpj,
           tipo: d.tipo,
@@ -66,8 +67,8 @@ export class ListarEmpresaComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  onEdit(event) {
-    console.log('funcionou caralhoooo');
+  onEdit() {
+    this.service.showToast('top-right', 'TESTESTESTESTESTESTESTESTE', 'Success');
   }
 
   onDeleteConfirm(event): void {

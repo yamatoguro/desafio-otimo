@@ -16,10 +16,13 @@ import {
   NbCheckboxModule,
   NbRadioModule,
   NbButtonModule,
+  NbDialogModule,
+  NbToastrModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { HttpClientModule } from '@angular/common/http';
+import { config } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,8 @@ import { HttpClientModule } from '@angular/common/http';
     NbCheckboxModule,
     NbRadioModule,
     Ng2SmartTableModule,
-    NbButtonModule
+    NbButtonModule,
+    NbToastrModule.forRoot(config)
   ],
   providers: [ListarEmpresaService],
   bootstrap: [AppComponent],

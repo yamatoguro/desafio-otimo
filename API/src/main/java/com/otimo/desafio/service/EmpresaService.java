@@ -10,6 +10,11 @@ import com.otimo.desafio.model.dto.EmpresaDTO;
 import com.otimo.desafio.repository.EmpresaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +28,19 @@ public class EmpresaService {
 
     @Autowired
     private TipoService tipoService;
+
+    public Page<EmpresaDTO> findAll() {
+        int page = 0;
+        int size = 5;
+        PageRequest pageRequest = PageRequest.of(
+                page,
+                size,
+                Sort.Direction.ASC,
+                "name");
+        return new PageImpl<EmpresaDTO>(
+                toDtoList(empresaRepository.findAll()), 
+                pageRequest, size);
+    }
 
     public List<EmpresaDTO> getEmpresas() {
         List<EmpresaDTO> empresas = new ArrayList<EmpresaDTO>();
@@ -41,36 +59,41 @@ public class EmpresaService {
     }
 
     public EmpresaDTO getEmpresa(String cnpj) {
-        Empresa e = empresaRepository.findByCnpj(cnpj);
-        EmpresaDTO e2 = new EmpresaDTO();
-        e2.setCnpj(e.getCnpj());
-        e2.setTipo(tipoService.getTipo(e.getId_tipo()));
-        e2.setNome(e.getNome());
-        e2.setRazao_social(e.getRazao_social());
-        e2.setTelefone(e.getTelefone());
-        e2.setEmail(e.getEmail());
-        e2.setEndereco(enderecoService.getEndereco(e.getId_endereco()));
-        return e2;
+        Empresa empresa = empresaRepository.findByCnpj(cnpj);
+        EmpresaDTO dto = new EmpresaDTO();
+        dto = toDTO(empresa, dto);
+        return dto;
     }
 
-	public String cadastra(EmpresaDTO dto) {
+    public String cadastra(EmpresaDTO dto) {
         Empresa empresa = new Empresa();
         Endereco endereco = enderecoService.cadastra(dto.getEndereco());
-        empresa.setCnpj(dto.getCnpj());
-        empresa.setId_tipo(tipoService.getTipoId(dto.getTipo()));
-        empresa.setNome(dto.getNome());
-        empresa.setRazao_social(dto.getRazao_social());
-        empresa.setTelefone(dto.getTelefone());
-        empresa.setEmail(dto.getEmail());
-        empresa.setId_endereco(endereco.getId_endereco());
+        empresa = fromDTO(dto, empresa, endereco);
         empresaRepository.save(empresa);
         Gson gson = new Gson();
-		return gson.toJson(empresa);
-	}
+        return gson.toJson(empresa);
+    }
 
-	public String atualiza(String cnpj, EmpresaDTO dto) {
-		Empresa empresa = empresaRepository.findByCnpj(cnpj);
+    public String atualiza(String cnpj, EmpresaDTO dto) {
+        Empresa empresa = empresaRepository.findByCnpj(cnpj);
         Endereco endereco = enderecoService.cadastra(dto.getEndereco());
+        empresa = fromDTO(dto, empresa, endereco);
+        Gson gson = new Gson();
+        return gson.toJson(empresa);
+    }
+
+    private EmpresaDTO toDTO(Empresa empresa, EmpresaDTO dto) {
+        dto.setCnpj(empresa.getCnpj());
+        dto.setTipo(tipoService.getTipo(empresa.getId_tipo()));
+        dto.setNome(empresa.getNome());
+        dto.setRazao_social(empresa.getRazao_social());
+        dto.setTelefone(empresa.getTelefone());
+        dto.setEmail(empresa.getEmail());
+        dto.setEndereco(enderecoService.getEndereco(empresa.getId_endereco()));
+        return dto;
+    }
+
+    public Empresa fromDTO(EmpresaDTO dto, Empresa empresa, Endereco endereco) {
         empresa.setCnpj(dto.getCnpj());
         empresa.setId_tipo(tipoService.getTipoId(dto.getTipo()));
         empresa.setNome(dto.getNome());
@@ -78,15 +101,32 @@ public class EmpresaService {
         empresa.setTelefone(dto.getTelefone());
         empresa.setEmail(dto.getEmail());
         empresa.setId_endereco(endereco.getId_endereco());
-        empresaRepository.save(empresa);
-        Gson gson = new Gson();
-		return gson.toJson(empresa);
-	}
+        return empresa;
+    }
 
-	public String delete(String cnpj) {
+    public List<EmpresaDTO> toDtoList(List<Empresa> list){
+        List<EmpresaDTO> dtos = new ArrayList<>();
+        list.forEach(e -> {
+            EmpresaDTO dto = new EmpresaDTO();
+            dto = toDTO(e, dto);
+            dtos.add(dto);
+        });
+        return dtos;
+    }
+
+    public String delete(String cnpj) {
         Empresa empresa = empresaRepository.findByCnpj(cnpj);
         empresaRepository.delete(empresa);
-		return null;
-	}
+        return null;
+    }
 
+    public Page<EmpresaDTO> search(String searchTerm, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "name");
+        Page<Empresa> empresas = empresaRepository.search(searchTerm.toLowerCase(), pageRequest);
+        Page<EmpresaDTO> empresasDTO = PageableExecutionUtils.getPage(
+            toDtoList(empresas.getContent()),
+            pageRequest,
+            empresas::getTotalElements); 
+        return empresasDTO;
+    }
 }

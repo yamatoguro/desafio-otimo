@@ -7,9 +7,10 @@
     <label>CNPJ: </label><input nbInput />
     <span> &nbsp; </span>
     <label>Nome da Empresa: </label><input nbInput />
+    <span> &nbsp; </span>
+    <button nbButton (click)="onEdit()">Top Right</button>
     <br><br>
     <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
     </ng2-smart-table>
-    <!-- <div>{{data}}</div> -->
   </nb-card-body>
 </nb-card>
