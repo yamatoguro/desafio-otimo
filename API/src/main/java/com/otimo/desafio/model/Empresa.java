@@ -25,8 +25,8 @@ public class Empresa {
     @Column(name = "cnpj")
     private String cnpj;
 
-    @Column(name = "id_tipo")
-    private Long id_tipo;
+    @Column(name = "tipo")
+    private String tipo;
 
     @Column(name = "nome")
     private String nome;

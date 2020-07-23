@@ -8,7 +8,7 @@
             <column name="cnpj" type="varchar(250)">
                 <constraints primaryKey="true" nullable="false" />
             </column>
-            <column name="id_tipo" type="int">
+            <column name="tipo" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
             <column name="nome" type="varchar(250)">
@@ -49,14 +49,6 @@
             </column>
             <column name="complemento" type="varchar(500)">
                 <constraints nullable="true" />
-            </column>
-        </createTable>
-        <createTable tableName="tipo">
-            <column name="id_tipo" type="int">
-                <constraints primaryKey="true" nullable="false" />
-            </column>
-            <column name="descricao" type="varchar(250)">
-                <constraints nullable="false" />
             </column>
         </createTable>
     </changeSet>

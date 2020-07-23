@@ -1,7 +1,6 @@
 package com.otimo.desafio.controller;
 
 import java.text.ParseException;
-import java.util.List;
 
 import com.otimo.desafio.model.dto.EmpresaDTO;
 import com.otimo.desafio.service.EmpresaService;
@@ -41,16 +40,9 @@ public class EmpresaController {
     }
 
     @GetMapping("/filter")
-    public Page<EmpresaDTO> search(
-            @RequestParam("searchTerm") String searchTerm,
-            @RequestParam(
-                    value = "page",
-                    required = false,
-                    defaultValue = "0") int page,
-            @RequestParam(
-                    value = "size",
-                    required = false,
-                    defaultValue = "5") int size) {
+    public Page<EmpresaDTO> search(@RequestParam("searchTerm") String searchTerm,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "5") int size) {
         return empresaService.search(searchTerm, page, size);
 
     }
@@ -61,8 +53,7 @@ public class EmpresaController {
     }
 
     @PostMapping
-    public String cadastraEmpresa(@RequestBody String Empresa)
-            throws ParseException, UnsupportedEncodingException {
+    public String cadastraEmpresa(@RequestBody String Empresa) throws ParseException, UnsupportedEncodingException {
         String decodedQuery = URLDecoder.decode(Empresa, "UTF-8");
         decodedQuery = decodedQuery.replace("=", "");
         Gson gson = new Gson();

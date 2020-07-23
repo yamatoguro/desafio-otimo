@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,20 +25,12 @@ public class EmpresaService {
     @Autowired
     private EnderecoService enderecoService;
 
-    @Autowired
-    private TipoService tipoService;
-
     public Page<EmpresaDTO> findAll() {
         int page = 0;
         int size = 5;
-        PageRequest pageRequest = PageRequest.of(
-                page,
-                size,
-                Sort.Direction.ASC,
-                "name");
-        return new PageImpl<EmpresaDTO>(
-                toDtoList(empresaRepository.findAll()), 
-                pageRequest, size);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "nome");
+        Page<Empresa> empresas = empresaRepository.findAll(pageRequest);
+        return new PageImpl<EmpresaDTO>(toDtoList(empresas.getContent()), pageRequest, size);
     }
 
     public List<EmpresaDTO> getEmpresas() {
@@ -47,7 +38,7 @@ public class EmpresaService {
         empresaRepository.findAll().forEach(e -> {
             EmpresaDTO e2 = new EmpresaDTO();
             e2.setCnpj(e.getCnpj());
-            e2.setTipo(tipoService.getTipo(e.getId_tipo()));
+            e2.setTipo(e.getTipo());
             e2.setNome(e.getNome());
             e2.setRazao_social(e.getRazao_social());
             e2.setTelefone(e.getTelefone());
@@ -84,7 +75,7 @@ public class EmpresaService {
 
     private EmpresaDTO toDTO(Empresa empresa, EmpresaDTO dto) {
         dto.setCnpj(empresa.getCnpj());
-        dto.setTipo(tipoService.getTipo(empresa.getId_tipo()));
+        dto.setTipo(empresa.getTipo());
         dto.setNome(empresa.getNome());
         dto.setRazao_social(empresa.getRazao_social());
         dto.setTelefone(empresa.getTelefone());
@@ -95,7 +86,7 @@ public class EmpresaService {
 
     public Empresa fromDTO(EmpresaDTO dto, Empresa empresa, Endereco endereco) {
         empresa.setCnpj(dto.getCnpj());
-        empresa.setId_tipo(tipoService.getTipoId(dto.getTipo()));
+        empresa.setTipo(dto.getTipo());
         empresa.setNome(dto.getNome());
         empresa.setRazao_social(dto.getRazao_social());
         empresa.setTelefone(dto.getTelefone());
@@ -104,7 +95,7 @@ public class EmpresaService {
         return empresa;
     }
 
-    public List<EmpresaDTO> toDtoList(List<Empresa> list){
+    public List<EmpresaDTO> toDtoList(List<Empresa> list) {
         List<EmpresaDTO> dtos = new ArrayList<>();
         list.forEach(e -> {
             EmpresaDTO dto = new EmpresaDTO();
@@ -121,12 +112,8 @@ public class EmpresaService {
     }
 
     public Page<EmpresaDTO> search(String searchTerm, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "name");
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "nome");
         Page<Empresa> empresas = empresaRepository.search(searchTerm.toLowerCase(), pageRequest);
-        Page<EmpresaDTO> empresasDTO = PageableExecutionUtils.getPage(
-            toDtoList(empresas.getContent()),
-            pageRequest,
-            empresas::getTotalElements); 
-        return empresasDTO;
+        return new PageImpl<EmpresaDTO>(toDtoList(empresas.getContent()), pageRequest, size);
     }
 }
