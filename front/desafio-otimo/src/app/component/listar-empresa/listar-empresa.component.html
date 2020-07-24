@@ -38,7 +38,7 @@
         &nbsp;
         <button disabled nbButton type="button">{{current + 1}}</button>
         &nbsp;
-        <button (click)="next()" [disabled]="currentSize < 5" nbButton status="primary" type="button">Avançar</button>
+        <button (click)="next()" [disabled]="((current + 1) * 5) >= size" nbButton status="primary" type="button">Avançar</button>
       </tfoot>
     </table>
   </nb-card-body>

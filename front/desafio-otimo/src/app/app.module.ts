@@ -41,7 +41,6 @@ import { FormsModule } from '@angular/forms';
     NbSelectModule,
     NbCheckboxModule,
     NbRadioModule,
-    Ng2SmartTableModule,
     NbButtonModule,
     NbToastrModule.forRoot(),
     FormsModule,

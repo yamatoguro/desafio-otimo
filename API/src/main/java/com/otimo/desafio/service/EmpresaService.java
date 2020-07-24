@@ -114,4 +114,11 @@ public class EmpresaService {
         Page<Empresa> empresas = empresaRepository.search(searchTerm.toLowerCase(), pageRequest);
         return new PageImpl<EmpresaDTO>(toDtoList(empresas.getContent()), pageRequest, size);
     }
+
+    public long count(String searchString){
+        if(!searchString.isEmpty() && searchString != null)
+            return empresaRepository.countFitered(searchString);
+        else
+            return empresaRepository.count();
+    }
 }

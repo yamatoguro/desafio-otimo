@@ -1,11 +1,8 @@
 import { NbDialogService } from '@nebular/theme';
 import { ListarEmpresaService } from './../../service/listar-empresa.service';
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { LocalDataSource } from 'ng2-smart-table';
 import { Empresa } from '../../model/empresa';
-import { FormsModule } from '@angular/forms';
 import { CadastrarEmpresaComponent } from '../cadastrar-empresa/cadastrar-empresa.component';
-import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-listar-empresa',
@@ -16,10 +13,7 @@ export class ListarEmpresaComponent implements OnInit {
   filtro: string = '';
   data = [];
   current = 0;
-  currentSize = 0;
-  //✎✓
-
-  source: LocalDataSource = new LocalDataSource();
+  size = 0;
 
   constructor(private service: ListarEmpresaService, private dialogService: NbDialogService) {
     this.getEmpresas(0)
@@ -56,32 +50,34 @@ export class ListarEmpresaComponent implements OnInit {
   }
 
   getEmpresasComFiltro(page) {
-    this.service.getEmpresasFiltradas(this.filtro, page).subscribe(empresas => {
+    this.service.getSize(this.filtro).subscribe(n => {
+      this.size = n;
       this.data = [];
-      this.currentSize = empresas.content.length;
-      console.log(this.currentSize);
-      empresas.content.map((d: Empresa) => {
-        this.data.push({
-          cnpj: d.cnpj,
-          tipo: d.tipo,
-          razaoSocial: d.razao_social,
-          nome: d.nome
+      this.service.getEmpresasFiltradas(this.filtro, page).subscribe(empresas => {
+        empresas.content.map((d: Empresa) => {
+          this.data.push({
+            cnpj: d.cnpj,
+            tipo: d.tipo,
+            razaoSocial: d.razao_social,
+            nome: d.nome
+          });
         });
       });
     });
   }
 
   getEmpresas(page) {
-    this.service.getEmpresas(page).subscribe(empresas => {
+    this.service.getSize(undefined).subscribe(n => {
+      this.size = n;
       this.data = [];
-      this.currentSize = empresas.content.length;
-      console.log(this.currentSize);
-      empresas.content.map((d: Empresa) => {
-        this.data.push({
-          cnpj: d.cnpj,
-          tipo: d.tipo,
-          razaoSocial: d.razao_social,
-          nome: d.nome
+      this.service.getEmpresas(page).subscribe(empresas => {
+        empresas.content.map((d: Empresa) => {
+          this.data.push({
+            cnpj: d.cnpj,
+            tipo: d.tipo,
+            razaoSocial: d.razao_social,
+            nome: d.nome
+          });
         });
       });
     });

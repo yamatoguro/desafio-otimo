@@ -35,9 +35,8 @@ public class EmpresaController {
     private EmpresaService empresaService;
 
     @GetMapping(path = "")
-    public Page<EmpresaDTO> getEmpresas(
-            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "5") int size){
+    public Page<EmpresaDTO> getEmpresas(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "5") int size) {
         return empresaService.findAll(page, size);
     }
 
@@ -46,12 +45,16 @@ public class EmpresaController {
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "5") int size) {
         return empresaService.search(searchTerm, page, size);
-
     }
 
     @GetMapping(path = "/{cnpj}")
     public EmpresaDTO getEmpresa(@PathVariable String cnpj) {
         return empresaService.getEmpresa(cnpj);
+    }
+
+    @GetMapping(path = "/count")
+    public long count(@RequestParam(value = "searchTerm", required = false, defaultValue = "") String searchTerm) {
+        return empresaService.count(searchTerm);
     }
 
     @PostMapping
