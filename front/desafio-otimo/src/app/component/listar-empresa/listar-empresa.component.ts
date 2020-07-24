@@ -45,10 +45,6 @@ export class ListarEmpresaComponent implements OnInit {
     }
   }
 
-  protected open() {
-    this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa' } });
-  }
-
   getEmpresasComFiltro(page) {
     this.service.getSize(this.filtro).subscribe(n => {
       this.size = n;
@@ -81,5 +77,23 @@ export class ListarEmpresaComponent implements OnInit {
         });
       });
     });
+  }
+
+  protected onCreate() {
+    this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa' } });
+  }
+
+  protected onEdit(cnpj){
+    var empresa: Empresa = new Empresa();
+    this.data.forEach(e => {
+      if (e.cnpj.includes(cnpj)) {
+        empresa = e;
+        this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa', empresa: empresa } });
+      }
+    });
+  }
+
+  protected onDelete(){
+    this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa' } });
   }
 }

@@ -8,7 +8,7 @@
       <div class="col-sm-3">
         <label>CNPJ ou Nome da Empresa: </label><input [(ngModel)]="filtro" type="text" nbInput /> &nbsp;
         <button nbButton (click)="onFilter()">Filtrar</button> &nbsp;
-        <button nbButton (click)="open()">Nova Empresa</button>
+        <button nbButton (click)="onCreate()">Nova Empresa</button>
       </div>
     </div>
     <br><br>
@@ -27,9 +27,9 @@
           <td style="padding-right: 4em">{{ item.razaoSocial }}</td>
           <td style="padding-right: 4em">{{ item.tipo}}</td>
           <td style="padding-right: 4em">
-            <button nbButton status="warning" type="button">Editar</button>
+            <button nbButton status="warning" type="button" (click)="onEdit(item.cnpj)">Editar</button>
             &nbsp;
-            <button nbButton status="danger" type="button">Excluir</button>
+            <button nbButton status="danger" type="button" (click)="onDelete()">Excluir</button>
           </td>
         </tr>
       </tbody>

@@ -28,10 +28,8 @@ export class ListarEmpresaService {
   }
 
   getEmpresasFiltradas(filtro: string, page) {
-    var params: HttpParams = new HttpParams()
-      .set('page', page)
-      .set('searchTerm', filtro);
-    return this.http.get(this.url, { params }).pipe(retry(2), catchError(this.handleError));
+    var params: HttpParams = new HttpParams().set('page', page).set('searchTerm', filtro);
+    return this.http.get(this.url + "/filter", { params }).pipe(retry(2), catchError(this.handleError));
   }
 
   getSize(filtro) {

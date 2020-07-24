@@ -1,51 +1,62 @@
 <nb-card>
   <nb-card-header>{{ title }}</nb-card-header>
   <nb-card-body>
-    <form formGroupName="formEmpresa">
-      <div class="row">
-          <label for="cnpj" class="label col-sm-3 col-form-label">CNPJ: </label>
-          <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.cnpj" id="cnpj" placeholder="cnpj para busca">
-        </div> <br>
-        <div class="col-md-4">
-          <label for="tipo" class="label col-sm-3 col-form-label">Tipo da Empresa: </label>
-          <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.tipo" id="tipo" placeholder="tipo de empresa">
-        </div> <br>
-        <div class="col-md-4">
-          <label for="nome" class="label col-sm-3 col-form-label">Nome da Empresa: </label>
-          <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.nome" id="nome" placeholder="nome da empresa">
-        </div> <br>
-        <div class="col-md-4">
-          <label for="contato" class="label col-sm-3 col-form-label">Contato: </label>
-          <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.telefone" id="contato" placeholder="contato">
-        </div> <br>
-        <div class="col-md-4">
-          <label for="email" class="label col-sm-3 col-form-label">Email</label>
-          <input type="email" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.email" id="email" placeholder="Email">
-        </div> <br>
-        <div class="col-md-4">
-          <button nbButton hero status="success" size="small">Buscar CEP</button>&nbsp;&nbsp;
-          <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.endereco.cep" id="cep" placeholder="digite o cep">
-        </div> <br>
-        <div class="col-md-4">
-          <label for="estado" class="label col-sm-3 col-form-label">Estado: </label>
-          <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.endereco.estado" id="estado" placeholder="Estado">
-        </div> <br>
-        <div class="col-md-4">
-          <label for="bairro" class="label col-sm-3 col-form-label">Bairro: </label>
-          <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.endereco.bairro" id="bairro" placeholder="Bairro">
-        </div> <br>
-        <div class="col-md-4">
-          <label for="cidade" class="label col-sm-3 col-form-label">Cidade: </label>
-          <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.endereco.cidade" id="cidade" placeholder="Cidade">
-        </div> <br>
-        <div class="col-md-4">
-          <label for="logradouro" class="label col-sm-3 col-form-label">Logradouro: </label>
-          <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.endereco.logradouro" id="logradouro" placeholder="Logradouro">
-        </div> <br>
-        <div class="col-md-4">
-          <label for="complemento" class="label col-sm-3 col-form-label">Complemento: </label>
-          <input type="text" nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.endereco.complemento" id="complemento" placeholder="Complemento">
-        </div> <br>
+    <form>
+      <div class="col-md-4">
+        <label for="cnpj" class="label col-sm-3 col-form-label">CNPJ: </label>
+        <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.cnpj" name="cnpj"
+          placeholder="cnpj para busca">
+      </div> <br>
+      <div class="col-md-4">
+        <label for="tipo" class="label col-sm-3 col-form-label">Tipo da Empresa: </label>
+        <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.tipo" name="tipo"
+          placeholder="tipo de empresa">
+      </div> <br>
+      <div class="col-md-4">
+        <label for="nome" class="label col-sm-3 col-form-label">Nome da Empresa: </label>
+        <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.nome" name="nome"
+          placeholder="nome da empresa">
+      </div> <br>
+      <div class="col-md-4">
+        <label for="contato" class="label col-sm-3 col-form-label">Contato: </label>
+        <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.telefone"
+          name="contato" placeholder="contato">
+      </div> <br>
+      <div class="col-md-4">
+        <label for="email" class="label col-sm-3 col-form-label">Email</label>
+        <input type="email" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.email"
+          name="email" placeholder="Email">
+      </div> <br>
+      <div class="col-md-4">
+        <button nbButton hero status="success" size="small">Buscar CEP</button>&nbsp;&nbsp;
+        <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.endereco.cep"
+          name="cep" placeholder="digite o cep">
+      </div> <br>
+      <div class="col-md-4">
+        <label for="estado" class="label col-sm-3 col-form-label">Estado: </label>
+        <input type="text" required nbInput fieldSize="small" style="float: right;"
+          [(ngModel)]="empresa.endereco.estado" name="estado" placeholder="Estado">
+      </div> <br>
+      <div class="col-md-4">
+        <label for="bairro" class="label col-sm-3 col-form-label">Bairro: </label>
+        <input type="text" required nbInput fieldSize="small" style="float: right;"
+          [(ngModel)]="empresa.endereco.bairro" name="bairro" placeholder="Bairro">
+      </div> <br>
+      <div class="col-md-4">
+        <label for="cidade" class="label col-sm-3 col-form-label">Cidade: </label>
+        <input type="text" required nbInput fieldSize="small" style="float: right;"
+          [(ngModel)]="empresa.endereco.cidade" name="cidade" placeholder="Cidade">
+      </div> <br>
+      <div class="col-md-4">
+        <label for="logradouro" class="label col-sm-3 col-form-label">Logradouro: </label>
+        <input type="text" required nbInput fieldSize="small" style="float: right;"
+          [(ngModel)]="empresa.endereco.logradouro" name="logradouro" placeholder="Logradouro">
+      </div> <br>
+      <div class="col-md-4">
+        <label for="complemento" class="label col-sm-3 col-form-label">Complemento: </label>
+        <input type="text" nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.endereco.complemento"
+          name="complemento" placeholder="Complemento">
+      </div> <br>
     </form>
   </nb-card-body>
   <nb-card-footer>

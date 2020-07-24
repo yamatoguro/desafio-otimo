@@ -31,20 +31,10 @@ public class EmpresaService {
         return new PageImpl<EmpresaDTO>(toDtoList(empresas.getContent()), pageRequest, size);
     }
 
-    public List<EmpresaDTO> getEmpresas() {
-        List<EmpresaDTO> empresas = new ArrayList<EmpresaDTO>();
-        empresaRepository.findAll().forEach(e -> {
-            EmpresaDTO e2 = new EmpresaDTO();
-            e2.setCnpj(e.getCnpj());
-            e2.setTipo(e.getTipo());
-            e2.setNome(e.getNome());
-            e2.setRazao_social(e.getRazao_social());
-            e2.setTelefone(e.getTelefone());
-            e2.setEmail(e.getEmail());
-            e2.setEndereco(enderecoService.getEndereco(e.getId_endereco()));
-            empresas.add(e2);
-        });
-        return empresas;
+    public Page<EmpresaDTO> search(String searchTerm, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "nome");
+        Page<Empresa> empresas = empresaRepository.search(searchTerm.toLowerCase(), pageRequest);
+        return new PageImpl<EmpresaDTO>(toDtoList(empresas.getContent()), pageRequest, size);
     }
 
     public EmpresaDTO getEmpresa(String cnpj) {
@@ -107,12 +97,6 @@ public class EmpresaService {
         Empresa empresa = empresaRepository.findByCnpj(cnpj);
         empresaRepository.delete(empresa);
         return null;
-    }
-
-    public Page<EmpresaDTO> search(String searchTerm, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, "nome");
-        Page<Empresa> empresas = empresaRepository.search(searchTerm.toLowerCase(), pageRequest);
-        return new PageImpl<EmpresaDTO>(toDtoList(empresas.getContent()), pageRequest, size);
     }
 
     public long count(String searchString){
