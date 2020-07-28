@@ -111,6 +111,7 @@ public class EmpresaService {
     }
 
     public String delete(long id) {
+        enderecoService.delete(empresaRepository.findById(id).get().getId_endereco());
         empresaRepository.deleteById(id);
         return null;
     }

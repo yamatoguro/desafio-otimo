@@ -82,13 +82,13 @@ export class ListarEmpresaComponent implements OnInit {
     });
   }
 
-   onCreate() {
+  onCreate() {
     this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa' } });
   }
 
-   onEdit(id){
+  onEdit(id) {
     this.service.getEmpresa(id).subscribe(e => {
-        this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa', id: e.id, empresa: e } });
+      this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa', id: e.id, empresa: e } });
     });
   }
 
