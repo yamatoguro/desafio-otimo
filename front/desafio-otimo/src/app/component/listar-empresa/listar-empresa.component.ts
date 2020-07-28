@@ -92,7 +92,11 @@ export class ListarEmpresaComponent implements OnInit {
     });
   }
 
-   onDelete(){
-    this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa' } });
+  onDelete(id): void {
+    if (window.confirm('Tem certeza que deseja excluir a empresa?')) {
+      this.service.excluirEmpresa(id).subscribe(x => {
+        window.location.reload();
+      });
+    }
   }
 }

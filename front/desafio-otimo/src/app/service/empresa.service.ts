@@ -59,6 +59,10 @@ export class EmpresaService {
     return this.http.put<Empresa>(this.url + '/' + id, params, this.httpOptions);
   }
 
+  excluirEmpresa(id){
+    return this.http.delete(this.url + '/' + id);
+  }
+
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
