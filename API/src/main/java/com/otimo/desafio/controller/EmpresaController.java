@@ -1,6 +1,7 @@
 package com.otimo.desafio.controller;
 
 import java.text.ParseException;
+import java.util.List;
 
 import com.otimo.desafio.model.dto.EmpresaDTO;
 import com.otimo.desafio.service.EmpresaService;
@@ -47,9 +48,14 @@ public class EmpresaController {
         return empresaService.search(searchTerm, page, size);
     }
 
-    @GetMapping(path = "/{cnpj}")
-    public EmpresaDTO getEmpresa(@PathVariable String cnpj) {
-        return empresaService.getEmpresa(cnpj);
+    @GetMapping(path = "/{id}")
+    public EmpresaDTO getEmpresa(@PathVariable long id) {
+        return empresaService.getEmpresa(id);
+    }
+
+    @GetMapping(path = "/cnpj/{cnpj}")
+    public List<EmpresaDTO> getEmpresaByCnpj(@PathVariable String cnpj) {
+        return empresaService.getEmpresaByCnpj(cnpj);
     }
 
     @GetMapping(path = "/count")
@@ -58,23 +64,31 @@ public class EmpresaController {
     }
 
     @PostMapping
-    public String cadastraEmpresa(@RequestBody String Empresa) throws ParseException, UnsupportedEncodingException {
-        String decodedQuery = URLDecoder.decode(Empresa, "UTF-8");
+    public String cadastraEmpresa(@RequestBody String empresa) throws ParseException, UnsupportedEncodingException {
+        String decodedQuery = URLDecoder.decode(empresa, "UTF-8");
         decodedQuery = decodedQuery.replace("=", "");
+        decodedQuery = decodedQuery.replace("empresa", "");
         Gson gson = new Gson();
         Type type = new TypeToken<EmpresaDTO>() {
         }.getType();
-        EmpresaDTO empresa = gson.fromJson(decodedQuery, type);
-        return empresaService.cadastra(empresa);
+        EmpresaDTO dto = gson.fromJson(decodedQuery, type);
+        return empresaService.cadastra(dto);
     }
 
-    @PutMapping(value = "/{cnpj}")
-    public String atualizaEmpresa(@PathVariable String cnpj, @RequestBody EmpresaDTO Empresa) {
-        return empresaService.atualiza(cnpj, Empresa);
+    @PutMapping(value = "/{id}")
+    public String atualizaEmpresa(@PathVariable long id, @RequestBody String empresa) throws ParseException, UnsupportedEncodingException {
+        String decodedQuery = URLDecoder.decode(empresa, "UTF-8");
+        decodedQuery = decodedQuery.replace("=", "");
+        decodedQuery = decodedQuery.replace("empresa", "");
+        Gson gson = new Gson();
+        Type type = new TypeToken<EmpresaDTO>() {
+        }.getType();
+        EmpresaDTO dto = gson.fromJson(decodedQuery, type);
+        return empresaService.atualiza(id, dto);
     }
 
-    @DeleteMapping(path = "/{cnpj}")
-    public String deleteEmpresa(@PathVariable String cnpj) {
-        return empresaService.delete(cnpj);
+    @DeleteMapping(path = "/{id}")
+    public String deleteEmpresa(@PathVariable long id) {
+        return empresaService.delete(id);
     }
 }

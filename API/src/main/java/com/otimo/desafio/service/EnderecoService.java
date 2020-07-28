@@ -17,8 +17,7 @@ public class EnderecoService {
     }
 
 	public Endereco cadastra(Endereco endereco) {
-        enderecoRepository.save(endereco);
-		return endereco;
+		return enderecoRepository.save(endereco);
 	}
 
 	public Endereco atualiza(Long id, Endereco endereco) {

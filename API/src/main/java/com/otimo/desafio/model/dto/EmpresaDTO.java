@@ -12,11 +12,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmpresaDTO {
+    private long id;
     private String cnpj;
     private String tipo;
     private String nome;
     private String razao_social;
-    private String telefone;
+    private String contato;
     private String email;
     private Endereco endereco;
 }

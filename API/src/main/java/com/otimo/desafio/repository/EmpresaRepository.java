@@ -14,7 +14,7 @@ public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
     @Query("SELECT e FROM Empresa e WHERE e.cnpj LIKE %?1% or LOWER(e.nome) LIKE %?1%")
     Page<Empresa> search(String searchTerm, Pageable pageable);
 
-    Empresa findByCnpj(String cnpj);
+    Empresa[] findByCnpj(String cnpj);
     
     @Query(value = "SELECT COUNT(*) FROM Empresa e WHERE e.cnpj LIKE %?1% or LOWER(e.nome) LIKE %?1%", nativeQuery = true)
     long countFitered(String searchTerm);

@@ -1,3 +1,4 @@
+import { Cep } from './../model/cep';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable, HostBinding } from '@angular/core';
 import { Empresa } from '../model/empresa';
@@ -8,7 +9,7 @@ import { NbToastrService } from '@nebular/theme';
 @Injectable({
   providedIn: 'root',
 })
-export class ListarEmpresaService {
+export class EmpresaService {
 
   private index: number = 0;
 
@@ -21,6 +22,10 @@ export class ListarEmpresaService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
+
+  getEmpresa(id: string): Observable<Empresa> {
+    return this.http.get<Empresa>(this.url + "/" + id).pipe(retry(2), catchError(this.handleError));
+  }
 
   getEmpresas(page) {
     var params: HttpParams = new HttpParams().set('page', page);
@@ -37,6 +42,21 @@ export class ListarEmpresaService {
       var params: HttpParams = new HttpParams().set('searchTerm', filtro);
     }
     return this.http.get<number>(this.url + '/count', { params }).pipe(retry(2), catchError(this.handleError));
+  }
+
+  getCEP(cep){
+    var urlCEP = "https://viacep.com.br/ws/" + cep + "/json/";
+    return this.http.get<Cep>(urlCEP);
+  }
+
+  cadastrarEmpresa(empresa: Empresa): Observable<Empresa> {
+    var params: HttpParams = new HttpParams().set('empresa', JSON.stringify(empresa));
+    return this.http.post<Empresa>(this.url, params, this.httpOptions);
+  }
+
+  atualizarEmpresa(id, empresa: Empresa): Observable<Empresa> {
+    var params: HttpParams = new HttpParams().set('empresa', JSON.stringify(empresa));
+    return this.http.put<Empresa>(this.url + '/' + id, params, this.httpOptions);
   }
 
   handleError(error: HttpErrorResponse) {

@@ -5,51 +5,55 @@
 
     <changeSet id="1" author="iago">
         <createTable tableName="empresa">
-            <column name="cnpj" type="varchar(250)">
-                <constraints primaryKey="true" nullable="false" />
+            <column name="id" type="int">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="cnpj" type="varchar(14)">
+                <constraints nullable="false" />
             </column>
             <column name="tipo" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
-            <column name="nome" type="varchar(250)">
+            <column name="nome" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
-            <column name="razao_social" type="varchar(250)">
+            <column name="razao_social" type="varchar(40)">
                 <constraints nullable="false" />
             </column>
-            <column name="telefone" type="varchar(250)">
+            <column name="contato" type="varchar(40)">
                 <constraints nullable="false" />
             </column>
-            <column name="email" type="varchar(250)">
+            <column name="email" type="varchar(40)">
                 <constraints nullable="false" />
             </column>
             <column name="id_endereco" type="int">
                 <constraints nullable="false" />
             </column>
         </createTable>
-        <addUniqueConstraint catalogName="desafio" clustered="false" columnNames="cnpj" constraintName="cnpjs" schemaName="public" tableName="empresa"/>
+        <addAutoIncrement catalogName="desafio" columnDataType="int" columnName="id" constraintName="empresasID" startWith="1" schemaName="public" tableName="empresa"/>
         <createTable tableName="endereco">
             <column name="id_endereco" type="int">
-                <constraints primaryKey="true" nullable="false" />
+                <constraints primaryKey="true" />
             </column>
-            <column name="cep" type="int">
+            <column name="cep" type="varchar(8)">
                 <constraints nullable="false" />
             </column>
-            <column name="estado" type="varchar(50)">
+            <column name="estado" type="varchar(40)">
                 <constraints nullable="false" />
             </column>
-            <column name="bairro" type="varchar(250)">
+            <column name="bairro" type="varchar(40)">
                 <constraints nullable="false" />
             </column>
-            <column name="cidade" type="varchar(250)">
+            <column name="cidade" type="varchar(40)">
                 <constraints nullable="false" />
             </column>
-            <column name="logradouro" type="varchar(500)">
+            <column name="logradouro" type="varchar(40)">
                 <constraints nullable="false" />
             </column>
-            <column name="complemento" type="varchar(500)">
+            <column name="complemento" type="varchar(40)">
                 <constraints nullable="true" />
             </column>
         </createTable>
+        <addAutoIncrement catalogName="desafio" columnDataType="int" columnName="id_endereco" constraintName="enderecosID" startWith="1" schemaName="public" tableName="endereco"/>
     </changeSet>
 </databaseChangeLog>

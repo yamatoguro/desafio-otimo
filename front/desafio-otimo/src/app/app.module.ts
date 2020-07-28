@@ -1,4 +1,4 @@
-import { ListarEmpresaService } from './service/listar-empresa.service';
+import { EmpresaService } from './service/empresa.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -46,7 +46,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     NbDialogModule.forRoot()
   ],
-  providers: [ListarEmpresaService],
+  providers: [EmpresaService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -14,20 +14,18 @@
     <br><br>
     <table>
       <thead>
+        <th>ID</th>
+        <th>Nome da Empresa</th>
         <th>CNPJ</th>
-        <th>Nome</th>
-        <th>Razão Social</th>
-        <th>Tipo</th>
         <th colspan="2">Ações</th>
       </thead>
       <tbody>
         <tr *ngFor="let item of data">
-          <td style="padding-right: 4em">{{ item.cnpj }}</td>
+          <td style="padding-right: 4em">{{ item.id }}</td>
           <td style="padding-right: 4em">{{ item.nome }}</td>
-          <td style="padding-right: 4em">{{ item.razaoSocial }}</td>
-          <td style="padding-right: 4em">{{ item.tipo}}</td>
+          <td style="padding-right: 4em">{{ item.cnpj}}</td>
           <td style="padding-right: 4em">
-            <button nbButton status="warning" type="button" (click)="onEdit(item.cnpj)">Editar</button>
+            <button nbButton status="warning" type="button" (click)="onEdit(item.id)">Editar</button>
             &nbsp;
             <button nbButton status="danger" type="button" (click)="onDelete()">Excluir</button>
           </td>

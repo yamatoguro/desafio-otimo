@@ -1,8 +1,9 @@
 import { NbDialogService } from '@nebular/theme';
-import { ListarEmpresaService } from './../../service/listar-empresa.service';
+import { EmpresaService } from './../../service/empresa.service';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Empresa } from '../../model/empresa';
 import { CadastrarEmpresaComponent } from '../cadastrar-empresa/cadastrar-empresa.component';
+import { Page } from '../../../assets/page';
 
 @Component({
   selector: 'app-listar-empresa',
@@ -15,7 +16,7 @@ export class ListarEmpresaComponent implements OnInit {
   current = 0;
   size = 0;
 
-  constructor(private service: ListarEmpresaService, private dialogService: NbDialogService) {
+  constructor(private service: EmpresaService, private dialogService: NbDialogService) {
     this.getEmpresas(0)
   }
 
@@ -49,9 +50,10 @@ export class ListarEmpresaComponent implements OnInit {
     this.service.getSize(this.filtro).subscribe(n => {
       this.size = n;
       this.data = [];
-      this.service.getEmpresasFiltradas(this.filtro, page).subscribe(empresas => {
+      this.service.getEmpresasFiltradas(this.filtro, page).subscribe((empresas: Page) => {
         empresas.content.map((d: Empresa) => {
           this.data.push({
+            id: d.id,
             cnpj: d.cnpj,
             tipo: d.tipo,
             razaoSocial: d.razao_social,
@@ -66,9 +68,10 @@ export class ListarEmpresaComponent implements OnInit {
     this.service.getSize(undefined).subscribe(n => {
       this.size = n;
       this.data = [];
-      this.service.getEmpresas(page).subscribe(empresas => {
+      this.service.getEmpresas(page).subscribe((empresas: Page) => {
         empresas.content.map((d: Empresa) => {
           this.data.push({
+            id: d.id,
             cnpj: d.cnpj,
             tipo: d.tipo,
             razaoSocial: d.razao_social,
@@ -79,21 +82,17 @@ export class ListarEmpresaComponent implements OnInit {
     });
   }
 
-  protected onCreate() {
+   onCreate() {
     this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa' } });
   }
 
-  protected onEdit(cnpj){
-    var empresa: Empresa = new Empresa();
-    this.data.forEach(e => {
-      if (e.cnpj.includes(cnpj)) {
-        empresa = e;
-        this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa', empresa: empresa } });
-      }
+   onEdit(id){
+    this.service.getEmpresa(id).subscribe(e => {
+        this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa', id: e.id, empresa: e } });
     });
   }
 
-  protected onDelete(){
+   onDelete(){
     this.dialogService.open(CadastrarEmpresaComponent, { context: { title: 'Cadastrar Empresa' } });
   }
 }

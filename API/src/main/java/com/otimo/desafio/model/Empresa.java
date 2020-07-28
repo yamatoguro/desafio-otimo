@@ -2,6 +2,8 @@ package com.otimo.desafio.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -22,6 +24,10 @@ import lombok.Setter;
 public class Empresa {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
+
     @Column(name = "cnpj")
     private String cnpj;
 
@@ -34,8 +40,8 @@ public class Empresa {
     @Column(name = "razao_social")
     private String razao_social;
 
-    @Column(name = "telefone")
-    private String telefone;
+    @Column(name = "contato")
+    private String contato;
 
     @Column(name = "email")
     private String email;

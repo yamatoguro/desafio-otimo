@@ -9,46 +9,53 @@
       </div> <br>
       <div class="col-md-4">
         <label for="tipo" class="label col-sm-3 col-form-label">Tipo da Empresa: </label>
-        <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.tipo" name="tipo"
-          placeholder="tipo de empresa">
+        <nb-select style="float: right;" [size]="'small'" [(selected)]="empresa.tipo" (options)="tipos">
+          <nb-option *ngFor="let tipo of tipos" [value]="tipo.nome">{{tipo.nome}}</nb-option>
+        </nb-select>
       </div> <br>
       <div class="col-md-4">
-        <label for="nome" class="label col-sm-3 col-form-label">Nome da Empresa: </label>
+        <label for="nome" class="label col-sm-3 col-form-label">Nome da Empresa*: </label>
         <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.nome" name="nome"
           placeholder="nome da empresa">
       </div> <br>
       <div class="col-md-4">
-        <label for="contato" class="label col-sm-3 col-form-label">Contato: </label>
-        <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.telefone"
+        <label for="razao" class="label col-sm-3 col-form-label">Razão Social*: </label>
+        <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.razao_social" name="razao_social"
+          placeholder="razão social">
+      </div> <br>
+      <div class="col-md-4">
+        <label for="contato" class="label col-sm-3 col-form-label">Contato*: </label>
+        <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.contato"
           name="contato" placeholder="contato">
       </div> <br>
       <div class="col-md-4">
-        <label for="email" class="label col-sm-3 col-form-label">Email</label>
+        <label for="email" class="label col-sm-3 col-form-label">Email*:</label>
         <input type="email" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.email"
           name="email" placeholder="Email">
       </div> <br>
       <div class="col-md-4">
-        <button nbButton hero status="success" size="small">Buscar CEP</button>&nbsp;&nbsp;
+        <label for="email" class="label col-sm-3 col-form-label">CEP*:</label>&nbsp;&nbsp;
         <input type="text" required nbInput fieldSize="small" style="float: right;" [(ngModel)]="empresa.endereco.cep"
-          name="cep" placeholder="digite o cep">
+        name="cep" placeholder="digite o cep">
+        <button nbButton hero status="success" (click)="buscarCEP()" size="small">Buscar CEP</button>&nbsp;&nbsp;
       </div> <br>
       <div class="col-md-4">
-        <label for="estado" class="label col-sm-3 col-form-label">Estado: </label>
+        <label for="estado" class="label col-sm-3 col-form-label">Estado*: </label>
         <input type="text" required nbInput fieldSize="small" style="float: right;"
           [(ngModel)]="empresa.endereco.estado" name="estado" placeholder="Estado">
       </div> <br>
       <div class="col-md-4">
-        <label for="bairro" class="label col-sm-3 col-form-label">Bairro: </label>
+        <label for="bairro" class="label col-sm-3 col-form-label">Bairro*: </label>
         <input type="text" required nbInput fieldSize="small" style="float: right;"
           [(ngModel)]="empresa.endereco.bairro" name="bairro" placeholder="Bairro">
       </div> <br>
       <div class="col-md-4">
-        <label for="cidade" class="label col-sm-3 col-form-label">Cidade: </label>
+        <label for="cidade" class="label col-sm-3 col-form-label">Cidade*: </label>
         <input type="text" required nbInput fieldSize="small" style="float: right;"
           [(ngModel)]="empresa.endereco.cidade" name="cidade" placeholder="Cidade">
       </div> <br>
       <div class="col-md-4">
-        <label for="logradouro" class="label col-sm-3 col-form-label">Logradouro: </label>
+        <label for="logradouro" class="label col-sm-3 col-form-label">Logradouro*: </label>
         <input type="text" required nbInput fieldSize="small" style="float: right;"
           [(ngModel)]="empresa.endereco.logradouro" name="logradouro" placeholder="Logradouro">
       </div> <br>
@@ -61,6 +68,6 @@
   </nb-card-body>
   <nb-card-footer>
     <button nbButton hero status="danger" (click)="dismiss()">Cancelar</button>
-    <button style="float: right;" type="submit" nbButton hero status="success">Enviar</button>
+    <button style="float: right;" type="submit" (click)="(id === undefined)? cadastra() : atualiza()" nbButton hero status="success">Enviar</button>
   </nb-card-footer>
 </nb-card>
